@@ -1,0 +1,4 @@
+gnome-terminal -x bash -c "<my command or script>; exec bash"
+
+
+gnome-terminal -x bash -c "python3 /home/lape04/Dropbox/laix2/processamentos_gnss_out21/tests.py; exec bash"
