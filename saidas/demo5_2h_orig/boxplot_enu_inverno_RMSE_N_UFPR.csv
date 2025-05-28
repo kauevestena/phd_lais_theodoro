@@ -1,0 +1,10 @@
+Metric,Value
+Minimum (Q0),
+Q1 (25%),
+Median (Q2),
+Q3 (75%),
+Maximum (Q4),
+IQR (Q3 - Q1),
+Lower Bound,
+Upper Bound,
+Outliers,None
