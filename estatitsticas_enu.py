@@ -1,5 +1,5 @@
 # %%
-scenario = 'demo5_2h_orig_gpsonly'
+scenario = 'demo5_vmf3_proto'
 
 # %%
 import pandas as pd
