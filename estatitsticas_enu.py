@@ -186,6 +186,8 @@ from datetime import timedelta, datetime
 # Inicializa a lista para armazenar os resultados
 results = []
 
+# Calculate RMSE directly on Cartesian coordinates (X, Y, Z)
+# Note: Results are stored with keys RMSE_X, RMSE_Y, RMSE_Z.
 # Itera sobre cada mês e estação RBMC
 for mes in meses:
     for estacao in estacoes_rbmc:
@@ -232,9 +234,9 @@ for mes in meses:
                     'Periodo': mes,
                     'DOY': doy,
                     'DataReferencia': ref_date,
-                    'RMSE_E': rmse_x,
-                    'RMSE_N': rmse_y,
-                    'RMSE_U': rmse_z
+                    'RMSE_X': rmse_x,
+                    'RMSE_Y': rmse_y,
+                    'RMSE_Z': rmse_z
                 })
 
             except Exception as e:
@@ -249,12 +251,12 @@ print(summary)
 
 # Salva os resultados em um arquivo CSV
 # output_file = f'saidas/{scenario}/rmse_summary.csv'
-output_file = os.path.join(sc_outpath,'rmse_summary.csv')
+output_file = os.path.join(sc_outpath,'rmse_summary_xyz.csv')
 df_results.to_csv(output_file, index=False)
 print(f"Resumo salvo em {output_file}")
 
 
-actual_summary_path = os.path.join(sc_outpath,'rmse_general_summary.csv')
+actual_summary_path = os.path.join(sc_outpath,'rmse_general_summary_xyz.csv')
 summary.to_csv(actual_summary_path, index=False)
 
 
@@ -370,13 +372,15 @@ def calculate_rmse_sgl(gnss_data, station_geodetic, station_std, station_cartesi
     std_u = station_std[0, 2]
 
     # Calcula o RMSE ponderado pelos desvios padrão
-    rmse_e = calculate_rmse(de, (std_e + std_e.mean()) / 2)
-    rmse_n = calculate_rmse(dn, (std_n + std_n.mean()) / 2)
-    rmse_u = calculate_rmse(du, (std_u + std_u.mean()) / 2)
+    rmse_e = calculate_rmse(de, 0)
+    rmse_n = calculate_rmse(dn, 0)
+    rmse_u = calculate_rmse(du, 0)
     rmse_planimetrico = np.sqrt(rmse_e**2 + rmse_n**2)
 
     return rmse_e, rmse_n, rmse_u, rmse_planimetrico
 
+# Function to process GNSS data and calculate RMSE in the local geodetic system (East, North, Up)
+# This uses the 'calculate_rmse_sgl' function internally.
 # Função principal para processar os dados GNSS
 def process_gnss_data(meses, estacoes_rbmc, ano, base_path, df_rbmc, df_rbmc_geo):
     # Inicializa a lista para armazenar os resultados
