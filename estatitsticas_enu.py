@@ -1,5 +1,5 @@
 # %%
-scenario = 'demo5_vmf3_proto'
+scenario = 'demo5_2h_orig_gpsonly'
 
 # %%
 import pandas as pd
@@ -487,7 +487,7 @@ process_gnss_data(meses, estacoes_rbmc, ano, base_path, df_rbmc, df_rbmc_geo)
 import pandas as pd
 
 # Caminho para o arquivo previamente gerado
-output_file = os.path.join(base_path, "rmse_sgl_summary.csv")
+output_file = f"saidas/{scenario}/rmse_summary_enu.csv"
 
 # Verifica se o arquivo existe
 if os.path.exists(output_file):
